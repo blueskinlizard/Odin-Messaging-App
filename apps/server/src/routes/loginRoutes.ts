@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.router();
-const passport = require('../passport/passportLogin')
+const passport = require('../auth/passportLogin')
 
 router.post("/login", async(req: any, res: any, next: any)=>{
     try{
@@ -19,3 +19,9 @@ router.post("/login", async(req: any, res: any, next: any)=>{
   }    
 })
     
+router.post("/signup", async(req: any, res: any, next: any)=>{
+    try{
+    }catch(err){
+
+    }
+})

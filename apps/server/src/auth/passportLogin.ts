@@ -21,7 +21,7 @@ passport.use(new LocalStrategy(
     }
 ))
 
-passport.serializeUser((user: any, done: any) =>{ //I dont know what type done is, so I'll avoid the type gymnastics
+passport.serializeUser((user: any, done: any) =>{ //I dont know what type "done" is, so I'll avoid the type gymnastics
     done(null, user.id); //Stores session ID
 })
 passport.deserializeUser(async(id: string, done: any) =>{
