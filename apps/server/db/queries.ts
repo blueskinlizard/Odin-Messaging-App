@@ -9,6 +9,41 @@ export const createUser = async (name: string, hashedPassword: string) => {
         }
     })
 }
-export const findUser = async (id: string) => { //Finds users by id
+export const findUserById = async (id: string) => { //Finds users by id
     return prisma.userValues.findUnique({ where: { id: id } });
+}
+export const findUserByName = async(username: string) =>{
+    return prisma.userValues.findUnique({ where: { name: username } });
+}
+export const createMessage = async(senderId: string, receiverId: string, message: string) => {
+    await prisma.message.create({
+        data: {
+            authorId: senderId,
+            recipientId: receiverId,
+            content: message
+        },
+        include: {
+            author: true, //Searches up author and recipient objects given corresponding IDs
+            recipient: true
+        }
+    })
+}
+export const findLatestMessage = async (senderId: string, receiverId: string) => {
+    await prisma.message.findFirst({
+        where: {
+            authorId: senderId,
+            recipientId: receiverId,
+        },
+        order: {
+            createdAt: 'desc', //Orders messages by date in descending order, finding latest
+        }
+    })
+}
+
+module.exports ={
+    createUser,
+    findUserById,
+    findUserByName,
+    createMessage,
+    findLatestMessage
 }
