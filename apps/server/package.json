@@ -8,6 +8,7 @@
   "dependencies": {
     "@prisma/client": "^6.6.0",
     "bcryptjs": "^3.0.2",
+    "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "express-session": "^1.18.1",
     "nodemon": "^3.1.9",
@@ -15,6 +16,7 @@
     "passport-local": "^1.0.0"
   },
   "scripts": {
+    "start": "nodemon --exec tsx app.ts",
     "devStart": "nodemon --exec tsx ./db/seed.ts",
     "db:migrate": "prisma migrate dev --schema=./db/prisma/schema.prisma",
     "db:migrateStatus": "npx prisma migrate status --schema=./db/prisma/schema.prisma"
