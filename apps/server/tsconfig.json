@@ -6,6 +6,7 @@
       "lib": ["ESNext"],
       "esModuleInterop": true,
       "module": "NodeNext",
-      "moduleResolution": "nodenext"
+      "moduleResolution": "nodenext",
+      "typeRoots": ["./server/types", "./node_modules/@types"]
   }
 }

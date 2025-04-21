@@ -21,7 +21,7 @@ passport.use('local-signin', new LocalStrategy(
     }
 ))
 passport.use('local-signup', new LocalStrategy(
-    async (username: any, password: any, done: any) => {
+    async (username: string, password: string, done: any) => {
         try{
             const presentUser = await db.getUserByUsername(username);
             if(presentUser){

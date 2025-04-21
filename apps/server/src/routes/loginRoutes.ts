@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('../auth/passportLogin')
+/** @typedef {import('express').Request} Request */
+/** @typedef {import('express').Response} Response */
+/** @typedef {import('express').NextFunction} NextFunction */
+
 
 router.post("/login", async(req: any, res: any, next: any)=>{
     try{
