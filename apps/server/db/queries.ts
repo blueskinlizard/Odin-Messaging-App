@@ -29,7 +29,7 @@ export const createMessage = async(senderId: string, receiverId: string, message
     })
 }
 export const findLatestMessage = async (senderId: string, receiverId: string) => {
-    await prisma.message.findFirst({
+    return await prisma.message.findFirst({
         where: {
             authorId: senderId,
             recipientId: receiverId,
@@ -39,11 +39,25 @@ export const findLatestMessage = async (senderId: string, receiverId: string) =>
         }
     })
 }
+export const findAllMessages = async (senderId: string, receiverId: string) => {
+    return await prisma.conversation.findFirst({
+        where: {
+            AND: [
+                { participants: { some: { id: senderId } } },
+                { participants: { some: { id: receiverId } } }
+            ]
+        },
+        include: {
+            messages: true
+        }
+    });
+};
 
 module.exports ={
     createUser,
     findUserById,
     findUserByName,
     createMessage,
-    findLatestMessage
+    findLatestMessage,
+    findAllMessages
 }

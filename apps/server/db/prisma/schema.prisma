@@ -36,7 +36,7 @@ model Message{
   conversationId String 
 }
 
-model Conversation{
+model Conversation{ 
   id String @id @default(uuid()) @unique
   participants UserValues[] @relation("Conversations")
   messages Message[] @relation("ConversationMessages")

@@ -15,6 +15,32 @@ datasource db {
 }
 
 model UserValues {
-  id   String @id @default(uuid())
-  name String
+  id               String         @id @unique @default(uuid())
+  name             String
+  password         String
+  sentMessages     Message[]      @relation("SentMessages")
+  receivedMessages Message[]      @relation("ReceivedMessages")
+  createdAt        DateTime       @default(now())
+  conversations    Conversation[] @relation("Conversations")
+}
+
+model Message {
+  id             String       @id @default(uuid())
+  author         UserValues   @relation("SentMessages", fields: [authorId], references: [id])
+  authorId       String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  content        String
+  recipient      UserValues   @relation("ReceivedMessages", fields: [recipientId], references: [id])
+  recipientId    String
+  Conversation   Conversation @relation("ConversationMessages", fields: [conversationId], references: [id])
+  conversationId String
+}
+
+model Conversation {
+  id           String       @id @unique @default(uuid())
+  participants UserValues[] @relation("Conversations")
+  messages     Message[]    @relation("ConversationMessages")
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
 }
