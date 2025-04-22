@@ -13,7 +13,7 @@ export const findUserById = async (id: string) => { //Finds users by id
     return prisma.userValues.findUnique({ where: { id: id } });
 }
 export const findUserByName = async(username: string) =>{
-    return prisma.userValues.findUnique({ where: { name: username } });
+    return prisma.userValues.findUnique({ where: { name: username.toLowerCase() } });
 }
 export const createMessage = async(senderId: string, receiverId: string, message: string) => {
     await prisma.message.create({
