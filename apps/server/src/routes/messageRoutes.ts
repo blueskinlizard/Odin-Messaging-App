@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.router();
+const router = express.Router();
 const db = require('../../db/queries')
 //Finds convo off sender and receiver, more of an optional thing if Im too lazy to implement conversation ID
 router.post('conversations/', async(req: any, res: any) =>{ 
@@ -15,8 +15,8 @@ router.post('conversations/', async(req: any, res: any) =>{
 }), 
 router.get('conversations/:conversationId',  async(req: any, res: any) =>{
     try{
-        const { conversation } = req.params;
-        const fetchedConversation = await db.findConversation(conversation);
+        const { conversationId } = req.params;
+        const fetchedConversation = await db.findConversation(conversationId);
         res.status(200).json(fetchedConversation);
     }catch(err){
         res.status(500).json({ error: 'Internal Server Error, Conversation Id fetch' });

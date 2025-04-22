@@ -23,3 +23,10 @@ router.post("/createConversation", async(req: any, res: any) =>{
         return res.status(500).json({ message: "Failed to create conversation" });
     }
 })
+router.get("/currentUser", async(req: any, res: any) =>{
+    const user = await db.findUserByName(req.session.username);
+    if (!user) {
+        return res.status(404).json({ message: "User not found" });
+    }
+    return res.status(200).json(user);
+})
