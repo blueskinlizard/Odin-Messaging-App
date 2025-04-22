@@ -1054,12 +1054,16 @@ export namespace Prisma {
     sentMessages: number
     receivedMessages: number
     conversations: number
+    following: number
+    followers: number
   }
 
   export type UserValuesCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sentMessages?: boolean | UserValuesCountOutputTypeCountSentMessagesArgs
     receivedMessages?: boolean | UserValuesCountOutputTypeCountReceivedMessagesArgs
     conversations?: boolean | UserValuesCountOutputTypeCountConversationsArgs
+    following?: boolean | UserValuesCountOutputTypeCountFollowingArgs
+    followers?: boolean | UserValuesCountOutputTypeCountFollowersArgs
   }
 
   // Custom InputTypes
@@ -1092,6 +1096,20 @@ export namespace Prisma {
    */
   export type UserValuesCountOutputTypeCountConversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ConversationWhereInput
+  }
+
+  /**
+   * UserValuesCountOutputType without action
+   */
+  export type UserValuesCountOutputTypeCountFollowingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserValuesWhereInput
+  }
+
+  /**
+   * UserValuesCountOutputType without action
+   */
+  export type UserValuesCountOutputTypeCountFollowersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserValuesWhereInput
   }
 
 
@@ -1298,6 +1316,8 @@ export namespace Prisma {
     sentMessages?: boolean | UserValues$sentMessagesArgs<ExtArgs>
     receivedMessages?: boolean | UserValues$receivedMessagesArgs<ExtArgs>
     conversations?: boolean | UserValues$conversationsArgs<ExtArgs>
+    following?: boolean | UserValues$followingArgs<ExtArgs>
+    followers?: boolean | UserValues$followersArgs<ExtArgs>
     _count?: boolean | UserValuesCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userValues"]>
 
@@ -1327,6 +1347,8 @@ export namespace Prisma {
     sentMessages?: boolean | UserValues$sentMessagesArgs<ExtArgs>
     receivedMessages?: boolean | UserValues$receivedMessagesArgs<ExtArgs>
     conversations?: boolean | UserValues$conversationsArgs<ExtArgs>
+    following?: boolean | UserValues$followingArgs<ExtArgs>
+    followers?: boolean | UserValues$followersArgs<ExtArgs>
     _count?: boolean | UserValuesCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserValuesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1338,6 +1360,8 @@ export namespace Prisma {
       sentMessages: Prisma.$MessagePayload<ExtArgs>[]
       receivedMessages: Prisma.$MessagePayload<ExtArgs>[]
       conversations: Prisma.$ConversationPayload<ExtArgs>[]
+      following: Prisma.$UserValuesPayload<ExtArgs>[]
+      followers: Prisma.$UserValuesPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -1741,6 +1765,8 @@ export namespace Prisma {
     sentMessages<T extends UserValues$sentMessagesArgs<ExtArgs> = {}>(args?: Subset<T, UserValues$sentMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     receivedMessages<T extends UserValues$receivedMessagesArgs<ExtArgs> = {}>(args?: Subset<T, UserValues$receivedMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     conversations<T extends UserValues$conversationsArgs<ExtArgs> = {}>(args?: Subset<T, UserValues$conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    following<T extends UserValues$followingArgs<ExtArgs> = {}>(args?: Subset<T, UserValues$followingArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserValuesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    followers<T extends UserValues$followersArgs<ExtArgs> = {}>(args?: Subset<T, UserValues$followersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserValuesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2231,6 +2257,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ConversationScalarFieldEnum | ConversationScalarFieldEnum[]
+  }
+
+  /**
+   * UserValues.following
+   */
+  export type UserValues$followingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserValues
+     */
+    select?: UserValuesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserValues
+     */
+    omit?: UserValuesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserValuesInclude<ExtArgs> | null
+    where?: UserValuesWhereInput
+    orderBy?: UserValuesOrderByWithRelationInput | UserValuesOrderByWithRelationInput[]
+    cursor?: UserValuesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserValuesScalarFieldEnum | UserValuesScalarFieldEnum[]
+  }
+
+  /**
+   * UserValues.followers
+   */
+  export type UserValues$followersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserValues
+     */
+    select?: UserValuesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserValues
+     */
+    omit?: UserValuesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserValuesInclude<ExtArgs> | null
+    where?: UserValuesWhereInput
+    orderBy?: UserValuesOrderByWithRelationInput | UserValuesOrderByWithRelationInput[]
+    cursor?: UserValuesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserValuesScalarFieldEnum | UserValuesScalarFieldEnum[]
   }
 
   /**
@@ -4547,6 +4621,8 @@ export namespace Prisma {
     sentMessages?: MessageListRelationFilter
     receivedMessages?: MessageListRelationFilter
     conversations?: ConversationListRelationFilter
+    following?: UserValuesListRelationFilter
+    followers?: UserValuesListRelationFilter
   }
 
   export type UserValuesOrderByWithRelationInput = {
@@ -4557,6 +4633,8 @@ export namespace Prisma {
     sentMessages?: MessageOrderByRelationAggregateInput
     receivedMessages?: MessageOrderByRelationAggregateInput
     conversations?: ConversationOrderByRelationAggregateInput
+    following?: UserValuesOrderByRelationAggregateInput
+    followers?: UserValuesOrderByRelationAggregateInput
   }
 
   export type UserValuesWhereUniqueInput = Prisma.AtLeast<{
@@ -4570,6 +4648,8 @@ export namespace Prisma {
     sentMessages?: MessageListRelationFilter
     receivedMessages?: MessageListRelationFilter
     conversations?: ConversationListRelationFilter
+    following?: UserValuesListRelationFilter
+    followers?: UserValuesListRelationFilter
   }, "id" | "id">
 
   export type UserValuesOrderByWithAggregationInput = {
@@ -4719,6 +4799,8 @@ export namespace Prisma {
     sentMessages?: MessageCreateNestedManyWithoutAuthorInput
     receivedMessages?: MessageCreateNestedManyWithoutRecipientInput
     conversations?: ConversationCreateNestedManyWithoutParticipantsInput
+    following?: UserValuesCreateNestedManyWithoutFollowersInput
+    followers?: UserValuesCreateNestedManyWithoutFollowingInput
   }
 
   export type UserValuesUncheckedCreateInput = {
@@ -4729,6 +4811,8 @@ export namespace Prisma {
     sentMessages?: MessageUncheckedCreateNestedManyWithoutAuthorInput
     receivedMessages?: MessageUncheckedCreateNestedManyWithoutRecipientInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutParticipantsInput
+    following?: UserValuesUncheckedCreateNestedManyWithoutFollowersInput
+    followers?: UserValuesUncheckedCreateNestedManyWithoutFollowingInput
   }
 
   export type UserValuesUpdateInput = {
@@ -4739,6 +4823,8 @@ export namespace Prisma {
     sentMessages?: MessageUpdateManyWithoutAuthorNestedInput
     receivedMessages?: MessageUpdateManyWithoutRecipientNestedInput
     conversations?: ConversationUpdateManyWithoutParticipantsNestedInput
+    following?: UserValuesUpdateManyWithoutFollowersNestedInput
+    followers?: UserValuesUpdateManyWithoutFollowingNestedInput
   }
 
   export type UserValuesUncheckedUpdateInput = {
@@ -4749,6 +4835,8 @@ export namespace Prisma {
     sentMessages?: MessageUncheckedUpdateManyWithoutAuthorNestedInput
     receivedMessages?: MessageUncheckedUpdateManyWithoutRecipientNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutParticipantsNestedInput
+    following?: UserValuesUncheckedUpdateManyWithoutFollowersNestedInput
+    followers?: UserValuesUncheckedUpdateManyWithoutFollowingNestedInput
   }
 
   export type UserValuesCreateManyInput = {
@@ -4927,11 +5015,21 @@ export namespace Prisma {
     none?: ConversationWhereInput
   }
 
+  export type UserValuesListRelationFilter = {
+    every?: UserValuesWhereInput
+    some?: UserValuesWhereInput
+    none?: UserValuesWhereInput
+  }
+
   export type MessageOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type ConversationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserValuesOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -5028,16 +5126,6 @@ export namespace Prisma {
     conversationId?: SortOrder
   }
 
-  export type UserValuesListRelationFilter = {
-    every?: UserValuesWhereInput
-    some?: UserValuesWhereInput
-    none?: UserValuesWhereInput
-  }
-
-  export type UserValuesOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type ConversationCountOrderByAggregateInput = {
     id?: SortOrder
     createdAt?: SortOrder
@@ -5076,6 +5164,18 @@ export namespace Prisma {
     connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
   }
 
+  export type UserValuesCreateNestedManyWithoutFollowersInput = {
+    create?: XOR<UserValuesCreateWithoutFollowersInput, UserValuesUncheckedCreateWithoutFollowersInput> | UserValuesCreateWithoutFollowersInput[] | UserValuesUncheckedCreateWithoutFollowersInput[]
+    connectOrCreate?: UserValuesCreateOrConnectWithoutFollowersInput | UserValuesCreateOrConnectWithoutFollowersInput[]
+    connect?: UserValuesWhereUniqueInput | UserValuesWhereUniqueInput[]
+  }
+
+  export type UserValuesCreateNestedManyWithoutFollowingInput = {
+    create?: XOR<UserValuesCreateWithoutFollowingInput, UserValuesUncheckedCreateWithoutFollowingInput> | UserValuesCreateWithoutFollowingInput[] | UserValuesUncheckedCreateWithoutFollowingInput[]
+    connectOrCreate?: UserValuesCreateOrConnectWithoutFollowingInput | UserValuesCreateOrConnectWithoutFollowingInput[]
+    connect?: UserValuesWhereUniqueInput | UserValuesWhereUniqueInput[]
+  }
+
   export type MessageUncheckedCreateNestedManyWithoutAuthorInput = {
     create?: XOR<MessageCreateWithoutAuthorInput, MessageUncheckedCreateWithoutAuthorInput> | MessageCreateWithoutAuthorInput[] | MessageUncheckedCreateWithoutAuthorInput[]
     connectOrCreate?: MessageCreateOrConnectWithoutAuthorInput | MessageCreateOrConnectWithoutAuthorInput[]
@@ -5094,6 +5194,18 @@ export namespace Prisma {
     create?: XOR<ConversationCreateWithoutParticipantsInput, ConversationUncheckedCreateWithoutParticipantsInput> | ConversationCreateWithoutParticipantsInput[] | ConversationUncheckedCreateWithoutParticipantsInput[]
     connectOrCreate?: ConversationCreateOrConnectWithoutParticipantsInput | ConversationCreateOrConnectWithoutParticipantsInput[]
     connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+  }
+
+  export type UserValuesUncheckedCreateNestedManyWithoutFollowersInput = {
+    create?: XOR<UserValuesCreateWithoutFollowersInput, UserValuesUncheckedCreateWithoutFollowersInput> | UserValuesCreateWithoutFollowersInput[] | UserValuesUncheckedCreateWithoutFollowersInput[]
+    connectOrCreate?: UserValuesCreateOrConnectWithoutFollowersInput | UserValuesCreateOrConnectWithoutFollowersInput[]
+    connect?: UserValuesWhereUniqueInput | UserValuesWhereUniqueInput[]
+  }
+
+  export type UserValuesUncheckedCreateNestedManyWithoutFollowingInput = {
+    create?: XOR<UserValuesCreateWithoutFollowingInput, UserValuesUncheckedCreateWithoutFollowingInput> | UserValuesCreateWithoutFollowingInput[] | UserValuesUncheckedCreateWithoutFollowingInput[]
+    connectOrCreate?: UserValuesCreateOrConnectWithoutFollowingInput | UserValuesCreateOrConnectWithoutFollowingInput[]
+    connect?: UserValuesWhereUniqueInput | UserValuesWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -5145,6 +5257,32 @@ export namespace Prisma {
     deleteMany?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
   }
 
+  export type UserValuesUpdateManyWithoutFollowersNestedInput = {
+    create?: XOR<UserValuesCreateWithoutFollowersInput, UserValuesUncheckedCreateWithoutFollowersInput> | UserValuesCreateWithoutFollowersInput[] | UserValuesUncheckedCreateWithoutFollowersInput[]
+    connectOrCreate?: UserValuesCreateOrConnectWithoutFollowersInput | UserValuesCreateOrConnectWithoutFollowersInput[]
+    upsert?: UserValuesUpsertWithWhereUniqueWithoutFollowersInput | UserValuesUpsertWithWhereUniqueWithoutFollowersInput[]
+    set?: UserValuesWhereUniqueInput | UserValuesWhereUniqueInput[]
+    disconnect?: UserValuesWhereUniqueInput | UserValuesWhereUniqueInput[]
+    delete?: UserValuesWhereUniqueInput | UserValuesWhereUniqueInput[]
+    connect?: UserValuesWhereUniqueInput | UserValuesWhereUniqueInput[]
+    update?: UserValuesUpdateWithWhereUniqueWithoutFollowersInput | UserValuesUpdateWithWhereUniqueWithoutFollowersInput[]
+    updateMany?: UserValuesUpdateManyWithWhereWithoutFollowersInput | UserValuesUpdateManyWithWhereWithoutFollowersInput[]
+    deleteMany?: UserValuesScalarWhereInput | UserValuesScalarWhereInput[]
+  }
+
+  export type UserValuesUpdateManyWithoutFollowingNestedInput = {
+    create?: XOR<UserValuesCreateWithoutFollowingInput, UserValuesUncheckedCreateWithoutFollowingInput> | UserValuesCreateWithoutFollowingInput[] | UserValuesUncheckedCreateWithoutFollowingInput[]
+    connectOrCreate?: UserValuesCreateOrConnectWithoutFollowingInput | UserValuesCreateOrConnectWithoutFollowingInput[]
+    upsert?: UserValuesUpsertWithWhereUniqueWithoutFollowingInput | UserValuesUpsertWithWhereUniqueWithoutFollowingInput[]
+    set?: UserValuesWhereUniqueInput | UserValuesWhereUniqueInput[]
+    disconnect?: UserValuesWhereUniqueInput | UserValuesWhereUniqueInput[]
+    delete?: UserValuesWhereUniqueInput | UserValuesWhereUniqueInput[]
+    connect?: UserValuesWhereUniqueInput | UserValuesWhereUniqueInput[]
+    update?: UserValuesUpdateWithWhereUniqueWithoutFollowingInput | UserValuesUpdateWithWhereUniqueWithoutFollowingInput[]
+    updateMany?: UserValuesUpdateManyWithWhereWithoutFollowingInput | UserValuesUpdateManyWithWhereWithoutFollowingInput[]
+    deleteMany?: UserValuesScalarWhereInput | UserValuesScalarWhereInput[]
+  }
+
   export type MessageUncheckedUpdateManyWithoutAuthorNestedInput = {
     create?: XOR<MessageCreateWithoutAuthorInput, MessageUncheckedCreateWithoutAuthorInput> | MessageCreateWithoutAuthorInput[] | MessageUncheckedCreateWithoutAuthorInput[]
     connectOrCreate?: MessageCreateOrConnectWithoutAuthorInput | MessageCreateOrConnectWithoutAuthorInput[]
@@ -5184,6 +5322,32 @@ export namespace Prisma {
     update?: ConversationUpdateWithWhereUniqueWithoutParticipantsInput | ConversationUpdateWithWhereUniqueWithoutParticipantsInput[]
     updateMany?: ConversationUpdateManyWithWhereWithoutParticipantsInput | ConversationUpdateManyWithWhereWithoutParticipantsInput[]
     deleteMany?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
+  }
+
+  export type UserValuesUncheckedUpdateManyWithoutFollowersNestedInput = {
+    create?: XOR<UserValuesCreateWithoutFollowersInput, UserValuesUncheckedCreateWithoutFollowersInput> | UserValuesCreateWithoutFollowersInput[] | UserValuesUncheckedCreateWithoutFollowersInput[]
+    connectOrCreate?: UserValuesCreateOrConnectWithoutFollowersInput | UserValuesCreateOrConnectWithoutFollowersInput[]
+    upsert?: UserValuesUpsertWithWhereUniqueWithoutFollowersInput | UserValuesUpsertWithWhereUniqueWithoutFollowersInput[]
+    set?: UserValuesWhereUniqueInput | UserValuesWhereUniqueInput[]
+    disconnect?: UserValuesWhereUniqueInput | UserValuesWhereUniqueInput[]
+    delete?: UserValuesWhereUniqueInput | UserValuesWhereUniqueInput[]
+    connect?: UserValuesWhereUniqueInput | UserValuesWhereUniqueInput[]
+    update?: UserValuesUpdateWithWhereUniqueWithoutFollowersInput | UserValuesUpdateWithWhereUniqueWithoutFollowersInput[]
+    updateMany?: UserValuesUpdateManyWithWhereWithoutFollowersInput | UserValuesUpdateManyWithWhereWithoutFollowersInput[]
+    deleteMany?: UserValuesScalarWhereInput | UserValuesScalarWhereInput[]
+  }
+
+  export type UserValuesUncheckedUpdateManyWithoutFollowingNestedInput = {
+    create?: XOR<UserValuesCreateWithoutFollowingInput, UserValuesUncheckedCreateWithoutFollowingInput> | UserValuesCreateWithoutFollowingInput[] | UserValuesUncheckedCreateWithoutFollowingInput[]
+    connectOrCreate?: UserValuesCreateOrConnectWithoutFollowingInput | UserValuesCreateOrConnectWithoutFollowingInput[]
+    upsert?: UserValuesUpsertWithWhereUniqueWithoutFollowingInput | UserValuesUpsertWithWhereUniqueWithoutFollowingInput[]
+    set?: UserValuesWhereUniqueInput | UserValuesWhereUniqueInput[]
+    disconnect?: UserValuesWhereUniqueInput | UserValuesWhereUniqueInput[]
+    delete?: UserValuesWhereUniqueInput | UserValuesWhereUniqueInput[]
+    connect?: UserValuesWhereUniqueInput | UserValuesWhereUniqueInput[]
+    update?: UserValuesUpdateWithWhereUniqueWithoutFollowingInput | UserValuesUpdateWithWhereUniqueWithoutFollowingInput[]
+    updateMany?: UserValuesUpdateManyWithWhereWithoutFollowingInput | UserValuesUpdateManyWithWhereWithoutFollowingInput[]
+    deleteMany?: UserValuesScalarWhereInput | UserValuesScalarWhereInput[]
   }
 
   export type UserValuesCreateNestedOneWithoutSentMessagesInput = {
@@ -5450,6 +5614,60 @@ export namespace Prisma {
     create: XOR<ConversationCreateWithoutParticipantsInput, ConversationUncheckedCreateWithoutParticipantsInput>
   }
 
+  export type UserValuesCreateWithoutFollowersInput = {
+    id?: string
+    name: string
+    password: string
+    createdAt?: Date | string
+    sentMessages?: MessageCreateNestedManyWithoutAuthorInput
+    receivedMessages?: MessageCreateNestedManyWithoutRecipientInput
+    conversations?: ConversationCreateNestedManyWithoutParticipantsInput
+    following?: UserValuesCreateNestedManyWithoutFollowersInput
+  }
+
+  export type UserValuesUncheckedCreateWithoutFollowersInput = {
+    id?: string
+    name: string
+    password: string
+    createdAt?: Date | string
+    sentMessages?: MessageUncheckedCreateNestedManyWithoutAuthorInput
+    receivedMessages?: MessageUncheckedCreateNestedManyWithoutRecipientInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutParticipantsInput
+    following?: UserValuesUncheckedCreateNestedManyWithoutFollowersInput
+  }
+
+  export type UserValuesCreateOrConnectWithoutFollowersInput = {
+    where: UserValuesWhereUniqueInput
+    create: XOR<UserValuesCreateWithoutFollowersInput, UserValuesUncheckedCreateWithoutFollowersInput>
+  }
+
+  export type UserValuesCreateWithoutFollowingInput = {
+    id?: string
+    name: string
+    password: string
+    createdAt?: Date | string
+    sentMessages?: MessageCreateNestedManyWithoutAuthorInput
+    receivedMessages?: MessageCreateNestedManyWithoutRecipientInput
+    conversations?: ConversationCreateNestedManyWithoutParticipantsInput
+    followers?: UserValuesCreateNestedManyWithoutFollowingInput
+  }
+
+  export type UserValuesUncheckedCreateWithoutFollowingInput = {
+    id?: string
+    name: string
+    password: string
+    createdAt?: Date | string
+    sentMessages?: MessageUncheckedCreateNestedManyWithoutAuthorInput
+    receivedMessages?: MessageUncheckedCreateNestedManyWithoutRecipientInput
+    conversations?: ConversationUncheckedCreateNestedManyWithoutParticipantsInput
+    followers?: UserValuesUncheckedCreateNestedManyWithoutFollowingInput
+  }
+
+  export type UserValuesCreateOrConnectWithoutFollowingInput = {
+    where: UserValuesWhereUniqueInput
+    create: XOR<UserValuesCreateWithoutFollowingInput, UserValuesUncheckedCreateWithoutFollowingInput>
+  }
+
   export type MessageUpsertWithWhereUniqueWithoutAuthorInput = {
     where: MessageWhereUniqueInput
     update: XOR<MessageUpdateWithoutAuthorInput, MessageUncheckedUpdateWithoutAuthorInput>
@@ -5520,6 +5738,48 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Conversation"> | Date | string
   }
 
+  export type UserValuesUpsertWithWhereUniqueWithoutFollowersInput = {
+    where: UserValuesWhereUniqueInput
+    update: XOR<UserValuesUpdateWithoutFollowersInput, UserValuesUncheckedUpdateWithoutFollowersInput>
+    create: XOR<UserValuesCreateWithoutFollowersInput, UserValuesUncheckedCreateWithoutFollowersInput>
+  }
+
+  export type UserValuesUpdateWithWhereUniqueWithoutFollowersInput = {
+    where: UserValuesWhereUniqueInput
+    data: XOR<UserValuesUpdateWithoutFollowersInput, UserValuesUncheckedUpdateWithoutFollowersInput>
+  }
+
+  export type UserValuesUpdateManyWithWhereWithoutFollowersInput = {
+    where: UserValuesScalarWhereInput
+    data: XOR<UserValuesUpdateManyMutationInput, UserValuesUncheckedUpdateManyWithoutFollowersInput>
+  }
+
+  export type UserValuesScalarWhereInput = {
+    AND?: UserValuesScalarWhereInput | UserValuesScalarWhereInput[]
+    OR?: UserValuesScalarWhereInput[]
+    NOT?: UserValuesScalarWhereInput | UserValuesScalarWhereInput[]
+    id?: StringFilter<"UserValues"> | string
+    name?: StringFilter<"UserValues"> | string
+    password?: StringFilter<"UserValues"> | string
+    createdAt?: DateTimeFilter<"UserValues"> | Date | string
+  }
+
+  export type UserValuesUpsertWithWhereUniqueWithoutFollowingInput = {
+    where: UserValuesWhereUniqueInput
+    update: XOR<UserValuesUpdateWithoutFollowingInput, UserValuesUncheckedUpdateWithoutFollowingInput>
+    create: XOR<UserValuesCreateWithoutFollowingInput, UserValuesUncheckedCreateWithoutFollowingInput>
+  }
+
+  export type UserValuesUpdateWithWhereUniqueWithoutFollowingInput = {
+    where: UserValuesWhereUniqueInput
+    data: XOR<UserValuesUpdateWithoutFollowingInput, UserValuesUncheckedUpdateWithoutFollowingInput>
+  }
+
+  export type UserValuesUpdateManyWithWhereWithoutFollowingInput = {
+    where: UserValuesScalarWhereInput
+    data: XOR<UserValuesUpdateManyMutationInput, UserValuesUncheckedUpdateManyWithoutFollowingInput>
+  }
+
   export type UserValuesCreateWithoutSentMessagesInput = {
     id?: string
     name: string
@@ -5527,6 +5787,8 @@ export namespace Prisma {
     createdAt?: Date | string
     receivedMessages?: MessageCreateNestedManyWithoutRecipientInput
     conversations?: ConversationCreateNestedManyWithoutParticipantsInput
+    following?: UserValuesCreateNestedManyWithoutFollowersInput
+    followers?: UserValuesCreateNestedManyWithoutFollowingInput
   }
 
   export type UserValuesUncheckedCreateWithoutSentMessagesInput = {
@@ -5536,6 +5798,8 @@ export namespace Prisma {
     createdAt?: Date | string
     receivedMessages?: MessageUncheckedCreateNestedManyWithoutRecipientInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutParticipantsInput
+    following?: UserValuesUncheckedCreateNestedManyWithoutFollowersInput
+    followers?: UserValuesUncheckedCreateNestedManyWithoutFollowingInput
   }
 
   export type UserValuesCreateOrConnectWithoutSentMessagesInput = {
@@ -5550,6 +5814,8 @@ export namespace Prisma {
     createdAt?: Date | string
     sentMessages?: MessageCreateNestedManyWithoutAuthorInput
     conversations?: ConversationCreateNestedManyWithoutParticipantsInput
+    following?: UserValuesCreateNestedManyWithoutFollowersInput
+    followers?: UserValuesCreateNestedManyWithoutFollowingInput
   }
 
   export type UserValuesUncheckedCreateWithoutReceivedMessagesInput = {
@@ -5559,6 +5825,8 @@ export namespace Prisma {
     createdAt?: Date | string
     sentMessages?: MessageUncheckedCreateNestedManyWithoutAuthorInput
     conversations?: ConversationUncheckedCreateNestedManyWithoutParticipantsInput
+    following?: UserValuesUncheckedCreateNestedManyWithoutFollowersInput
+    followers?: UserValuesUncheckedCreateNestedManyWithoutFollowingInput
   }
 
   export type UserValuesCreateOrConnectWithoutReceivedMessagesInput = {
@@ -5603,6 +5871,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     receivedMessages?: MessageUpdateManyWithoutRecipientNestedInput
     conversations?: ConversationUpdateManyWithoutParticipantsNestedInput
+    following?: UserValuesUpdateManyWithoutFollowersNestedInput
+    followers?: UserValuesUpdateManyWithoutFollowingNestedInput
   }
 
   export type UserValuesUncheckedUpdateWithoutSentMessagesInput = {
@@ -5612,6 +5882,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     receivedMessages?: MessageUncheckedUpdateManyWithoutRecipientNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutParticipantsNestedInput
+    following?: UserValuesUncheckedUpdateManyWithoutFollowersNestedInput
+    followers?: UserValuesUncheckedUpdateManyWithoutFollowingNestedInput
   }
 
   export type UserValuesUpsertWithoutReceivedMessagesInput = {
@@ -5632,6 +5904,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sentMessages?: MessageUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUpdateManyWithoutParticipantsNestedInput
+    following?: UserValuesUpdateManyWithoutFollowersNestedInput
+    followers?: UserValuesUpdateManyWithoutFollowingNestedInput
   }
 
   export type UserValuesUncheckedUpdateWithoutReceivedMessagesInput = {
@@ -5641,6 +5915,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sentMessages?: MessageUncheckedUpdateManyWithoutAuthorNestedInput
     conversations?: ConversationUncheckedUpdateManyWithoutParticipantsNestedInput
+    following?: UserValuesUncheckedUpdateManyWithoutFollowersNestedInput
+    followers?: UserValuesUncheckedUpdateManyWithoutFollowingNestedInput
   }
 
   export type ConversationUpsertWithoutMessagesInput = {
@@ -5675,6 +5951,8 @@ export namespace Prisma {
     createdAt?: Date | string
     sentMessages?: MessageCreateNestedManyWithoutAuthorInput
     receivedMessages?: MessageCreateNestedManyWithoutRecipientInput
+    following?: UserValuesCreateNestedManyWithoutFollowersInput
+    followers?: UserValuesCreateNestedManyWithoutFollowingInput
   }
 
   export type UserValuesUncheckedCreateWithoutConversationsInput = {
@@ -5684,6 +5962,8 @@ export namespace Prisma {
     createdAt?: Date | string
     sentMessages?: MessageUncheckedCreateNestedManyWithoutAuthorInput
     receivedMessages?: MessageUncheckedCreateNestedManyWithoutRecipientInput
+    following?: UserValuesUncheckedCreateNestedManyWithoutFollowersInput
+    followers?: UserValuesUncheckedCreateNestedManyWithoutFollowingInput
   }
 
   export type UserValuesCreateOrConnectWithoutConversationsInput = {
@@ -5733,16 +6013,6 @@ export namespace Prisma {
   export type UserValuesUpdateManyWithWhereWithoutConversationsInput = {
     where: UserValuesScalarWhereInput
     data: XOR<UserValuesUpdateManyMutationInput, UserValuesUncheckedUpdateManyWithoutConversationsInput>
-  }
-
-  export type UserValuesScalarWhereInput = {
-    AND?: UserValuesScalarWhereInput | UserValuesScalarWhereInput[]
-    OR?: UserValuesScalarWhereInput[]
-    NOT?: UserValuesScalarWhereInput | UserValuesScalarWhereInput[]
-    id?: StringFilter<"UserValues"> | string
-    name?: StringFilter<"UserValues"> | string
-    password?: StringFilter<"UserValues"> | string
-    createdAt?: DateTimeFilter<"UserValues"> | Date | string
   }
 
   export type MessageUpsertWithWhereUniqueWithoutConversationInput = {
@@ -5853,6 +6123,64 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type UserValuesUpdateWithoutFollowersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sentMessages?: MessageUpdateManyWithoutAuthorNestedInput
+    receivedMessages?: MessageUpdateManyWithoutRecipientNestedInput
+    conversations?: ConversationUpdateManyWithoutParticipantsNestedInput
+    following?: UserValuesUpdateManyWithoutFollowersNestedInput
+  }
+
+  export type UserValuesUncheckedUpdateWithoutFollowersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sentMessages?: MessageUncheckedUpdateManyWithoutAuthorNestedInput
+    receivedMessages?: MessageUncheckedUpdateManyWithoutRecipientNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutParticipantsNestedInput
+    following?: UserValuesUncheckedUpdateManyWithoutFollowersNestedInput
+  }
+
+  export type UserValuesUncheckedUpdateManyWithoutFollowersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserValuesUpdateWithoutFollowingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sentMessages?: MessageUpdateManyWithoutAuthorNestedInput
+    receivedMessages?: MessageUpdateManyWithoutRecipientNestedInput
+    conversations?: ConversationUpdateManyWithoutParticipantsNestedInput
+    followers?: UserValuesUpdateManyWithoutFollowingNestedInput
+  }
+
+  export type UserValuesUncheckedUpdateWithoutFollowingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sentMessages?: MessageUncheckedUpdateManyWithoutAuthorNestedInput
+    receivedMessages?: MessageUncheckedUpdateManyWithoutRecipientNestedInput
+    conversations?: ConversationUncheckedUpdateManyWithoutParticipantsNestedInput
+    followers?: UserValuesUncheckedUpdateManyWithoutFollowingNestedInput
+  }
+
+  export type UserValuesUncheckedUpdateManyWithoutFollowingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type MessageCreateManyConversationInput = {
     id?: string
     authorId: string
@@ -5869,6 +6197,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sentMessages?: MessageUpdateManyWithoutAuthorNestedInput
     receivedMessages?: MessageUpdateManyWithoutRecipientNestedInput
+    following?: UserValuesUpdateManyWithoutFollowersNestedInput
+    followers?: UserValuesUpdateManyWithoutFollowingNestedInput
   }
 
   export type UserValuesUncheckedUpdateWithoutConversationsInput = {
@@ -5878,6 +6208,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sentMessages?: MessageUncheckedUpdateManyWithoutAuthorNestedInput
     receivedMessages?: MessageUncheckedUpdateManyWithoutRecipientNestedInput
+    following?: UserValuesUncheckedUpdateManyWithoutFollowersNestedInput
+    followers?: UserValuesUncheckedUpdateManyWithoutFollowingNestedInput
   }
 
   export type UserValuesUncheckedUpdateManyWithoutConversationsInput = {

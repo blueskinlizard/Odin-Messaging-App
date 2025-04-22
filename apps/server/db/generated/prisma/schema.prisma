@@ -22,6 +22,9 @@ model UserValues {
   receivedMessages Message[]      @relation("ReceivedMessages")
   createdAt        DateTime       @default(now())
   conversations    Conversation[] @relation("Conversations")
+  following        UserValues[]   @relation("UserFollows")
+  //People following, are automatically part of being followers for another use, which is why we use this relational setup
+  followers        UserValues[]   @relation("UserFollows")
 }
 
 model Message {
