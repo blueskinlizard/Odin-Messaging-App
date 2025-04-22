@@ -62,7 +62,7 @@ export const findConversation = async(conversationId: string) =>{
     });
 }
 export const createConversation = async(requester: string, participant: string) =>{
-    return await prisma.conversation.create({
+    await prisma.conversation.create({
         data:{
             participants: {
                 connect: [
@@ -80,5 +80,6 @@ module.exports ={
     createMessage,
     findLatestMessage,
     findAllMessages,
-    findConversation
+    findConversation,
+    createConversation
 }

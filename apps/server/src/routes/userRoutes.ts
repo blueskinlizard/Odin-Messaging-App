@@ -14,3 +14,12 @@ router.post("/findUser", async(req: any, res: any) =>{
         return res.status(500).json({ message: "Internal server error", error: err.message });
     }
 })
+router.post("/createConversation", async(req: any, res: any) =>{
+    const requester = req.session.username;
+    const { participant } = req.body;
+    try{
+        await db.createConversation(requester, participant);
+    }catch{
+        return res.status(500).json({ message: "Failed to create conversation" });
+    }
+})

@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.router();
 const db = require('../../db/queries')
-
-router.post('conversations/', async(req: any, res: any) =>{ //Finds convo off sender and receiver
-    const { sender, receiver } = req.body;
+//Finds convo off sender and receiver, more of an optional thing if Im too lazy to implement conversation ID
+router.post('conversations/', async(req: any, res: any) =>{ 
+    const { receiver } = req.body;
     try{
+        const sender = req.session.username;
         const conversation = await db.findAllMessages(sender, receiver);
         const messages = await conversation.messages;
         res.status(200).json(messages);
