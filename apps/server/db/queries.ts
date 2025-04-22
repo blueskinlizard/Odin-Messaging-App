@@ -52,12 +52,33 @@ export const findAllMessages = async (senderId: string, receiverId: string) => {
         }
     });
 };
-
+export const findConversation = async(conversationId: string) =>{
+    return prisma.conversation.findUnique({
+        where: { id: conversationId },
+        include: {
+            participants: true,
+            messages: true
+        }
+    });
+}
+export const createConversation = async(requester: string, participant: string) =>{
+    return await prisma.conversation.create({
+        data:{
+            participants: {
+                connect: [
+                    {id: requester}, 
+                    {id: participant}
+                ]
+            }
+        }
+    })
+}
 module.exports ={
     createUser,
     findUserById,
     findUserByName,
     createMessage,
     findLatestMessage,
-    findAllMessages
+    findAllMessages,
+    findConversation
 }
