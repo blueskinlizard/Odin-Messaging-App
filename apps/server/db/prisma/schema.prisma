@@ -14,11 +14,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 model UserValues{
-  id String @id @default(uuid()) @unique  
+  id String @id @default(uuid()) @unique 
   name String
   password String
   sentMessages Message[] @relation("SentMessages")
   receivedMessages Message[] @relation("ReceivedMessages")
+  createdAt DateTime @default(now())
+  conversations Conversation[] @relation("Conversations")
 }
 
 model Message{
@@ -30,4 +32,14 @@ model Message{
   content String
   recipient UserValues @relation("ReceivedMessages", fields: [recipientId], references: [id])
   recipientId String
+  Conversation Conversation @relation("ConversationMessages", fields: [conversationId], references: [id])
+  conversationId String 
+}
+
+model Conversation{
+  id String @id @default(uuid()) @unique
+  participants UserValues[] @relation("Conversations")
+  messages Message[] @relation("ConversationMessages")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

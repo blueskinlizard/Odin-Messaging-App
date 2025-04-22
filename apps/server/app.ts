@@ -1,10 +1,8 @@
-const path = require("node:path");
 const express = require("express");
 const session = require("express-session");
 const passport = require("passport");
-const LocalStrategy = require('passport-local').Strategy;
-const passportConfig = require('./src/auth/passportLogin')
 const dotenv = require('dotenv');
+const cors = require("cors");
 const PORT = 8080;
 dotenv.config();
 const app = express();
@@ -13,7 +11,10 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
-
+const corsOptions = {
+    origin: 'http://localhost:5173'
+}
+app.use(cors(corsOptions));
 app.use(passport.initialize());
 app.use(passport.session());
 

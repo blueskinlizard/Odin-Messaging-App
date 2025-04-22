@@ -1,0 +1,1 @@
+//When a user is searched up, or mentioned, this component will give a little display of their profile
