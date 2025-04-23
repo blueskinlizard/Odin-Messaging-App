@@ -24,9 +24,9 @@ export default function MessagePage(){
             setMessages(data.messages); //Set messages to what was fetched from conversation messages
         }
         fetchInit();
-    }, [recipientUser, currentUser])
+    }, [conversationId, recipientUser])
     const createMessage = async() =>{
-        
+
     }
 
     const {data, isLoading, isError, error} = useQuery({

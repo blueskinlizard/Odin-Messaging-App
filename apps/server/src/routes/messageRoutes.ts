@@ -6,7 +6,7 @@ router.post('/conversations/', async(req: any, res: any) =>{
     const { receiver } = req.body;
     try{
         const sender = req.session.username;
-        const conversation = await db.findAllMessages(sender.toLowerCase(), receiver.toLowerCase());
+        const conversation = await db.findAllMessages(sender, receiver);
         //Converts to lowercase to avoid char mismatch
         if(!conversation){
             return res.status(404).json({ error: 'Conversation not found' });
@@ -16,6 +16,11 @@ router.post('/conversations/', async(req: any, res: any) =>{
     }catch(err){
         res.status(500).json({ error: 'Internal Server Error, Conversation via name fetch' });
     }
+})
+router.post('/createmessage/', async(req: any, res: any) =>{
+    const {recipientUser, conversationId, messageContent} = req.params;
+    const currentUser = req.session.username;
+    await db.create
 })
 router.get('/conversations/:conversationId',  async(req: any, res: any) =>{
     try{

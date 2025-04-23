@@ -1,10 +1,12 @@
+import { connect } from "http2";
+
 const { PrismaClient } = require('./generated/prisma');
 const prisma = new PrismaClient();
 
 export const createUser = async (name: string, hashedPassword: string) => {
     await prisma.userValues.create({
         data: {
-            name: name,
+            name: name.toLowerCase(),
             password: hashedPassword
         }
     })
@@ -14,19 +16,6 @@ export const findUserById = async (id: string) => { //Finds users by id
 }
 export const findUserByName = async(username: string) =>{
     return prisma.userValues.findUnique({ where: { name: username.toLowerCase() } });
-}
-export const createMessage = async(senderId: string, receiverId: string, message: string) => {
-    await prisma.message.create({
-        data: {
-            authorId: senderId,
-            recipientId: receiverId,
-            content: message
-        },
-        include: {
-            author: true, //Searches up author and recipient objects given corresponding IDs
-            recipient: true
-        }
-    })
 }
 export const findLatestMessage = async (senderId: string, receiverId: string) => {
     return await prisma.message.findFirst({
@@ -68,9 +57,25 @@ export const createConversation = async(requester: string, participant: string) 
         data:{
             participants: {
                 connect: [
-                    {id: requester}, 
-                    {id: participant}
+                    {id: requester.toLowerCase()}, 
+                    {id: participant.toLowerCase()}
                 ]
+            }
+        }
+    })
+}
+export const createMessage = async(authorUser: any, recipientUser: any, conversationId: string, messageContent: string) =>{
+    await prisma.message.create({
+        data:{ //Author and recipient need to be objects, not strings! Almost made this error
+            content: messageContent,
+            author: {
+                connect: { name: authorUser.toLowerCase()}
+            },
+            recipient: {
+                connect: { name: recipientUser.toLowerCase()}
+            },
+            conversation: {
+                connect: { id: conversationId}
             }
         }
     })
@@ -83,5 +88,5 @@ module.exports ={
     findLatestMessage,
     findAllMessages,
     findConversation,
-    createConversation
+    createConversation,
 }

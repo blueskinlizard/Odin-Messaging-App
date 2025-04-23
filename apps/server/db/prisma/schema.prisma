@@ -15,14 +15,14 @@ datasource db {
 }
 model UserValues{
   id String @id @default(uuid()) @unique 
-  name String
+  name String @unique
   password String
   sentMessages Message[] @relation("SentMessages")
   receivedMessages Message[] @relation("ReceivedMessages")
   createdAt DateTime @default(now())
   conversations Conversation[] @relation("Conversations")
   following UserValues[] @relation("UserFollows")
-  //People following, are automatically part of being followers for another use, which is why we use this relational setup
+  //People following, are automatically part of being followers for another use, which is why we use this relational setup  
   followers UserValues[] @relation("UserFollows")
 }
 
