@@ -20,7 +20,7 @@ router.post('/conversations/', async(req: any, res: any) =>{
 router.post('/createmessage/', async(req: any, res: any) =>{
     const {recipientUser, conversationId, messageContent} = req.params;
     const currentUser = req.session.username;
-    await db.create
+    await db.createMessage(currentUser, recipientUser, conversationId, messageContent)
 })
 router.get('/conversations/:conversationId',  async(req: any, res: any) =>{
     try{
