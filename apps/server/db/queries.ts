@@ -40,15 +40,17 @@ export const findLatestMessage = async (senderId: string, receiverId: string) =>
     })
 }
 export const findAllMessages = async (senderId: string, receiverId: string) => {
-    return await prisma.conversation.findFirst({
+    //Fetches by name, too lazy to change ID variable
+    return await prisma.conversation.findUnique({
         where: {
             AND: [
-                { participants: { some: { id: senderId } } },
-                { participants: { some: { id: receiverId } } }
+                { participants: { some: { name: senderId.toLowerCase() } } },
+                { participants: { some: { name: receiverId.toLowerCase() } } }
             ]
         },
         include: {
-            messages: true
+            messages: true,
+            id: true
         }
     });
 };

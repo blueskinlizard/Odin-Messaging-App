@@ -25,6 +25,9 @@ export default function MessagePage(){
         }
         fetchInit();
     }, [recipientUser, currentUser])
+    const createMessage = async() =>{
+        
+    }
 
     const {data, isLoading, isError, error} = useQuery({
         queryKey: ["messages", conversationId], 
