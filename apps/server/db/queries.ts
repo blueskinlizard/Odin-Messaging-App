@@ -1,6 +1,5 @@
 import { connect } from "http2";
-
-import { PrismaClient } from './generated/prisma';
+import { PrismaClient } from './generated/prisma/index.js'; 
 
 const prisma = new PrismaClient();
 
@@ -18,11 +17,10 @@ export const findUserById = async (id: string) => { //Finds users by id
 export const findUserByName = async(username: string) =>{
     return prisma.userValues.findFirst({ where: { name: username.toLowerCase() } });
 }
-export const findLatestMessage = async (senderId: string, receiverId: string) => {
+export const findLatestMessage = async (conversationId: string) => {
     return await prisma.message.findFirst({
         where: {
-            authorId: senderId,
-            recipientId: receiverId,
+            conversationId: conversationId
         },
         orderBy: { 
             createdAt: 'desc', //Orders messages by date in descending order, finding latest

@@ -35,7 +35,7 @@ export default function ProfileDisplay(props){
     }, [userProfile])
     return(
         <div className="Mini profile display">
-
+            
         </div>
     )
 }

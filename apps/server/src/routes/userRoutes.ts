@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../../db/queries')
+const  db  = require("../../db/queries.ts")
 
 router.post("/findUser", async(req: any, res: any) =>{
     const { userName } = req.body;
