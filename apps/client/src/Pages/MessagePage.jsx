@@ -9,7 +9,7 @@ export default function MessagePage(){
     const [fetchedMessages, setFetchedMessages] = useState([]);
     const [recipientUser, setRecipientUser] = useState();
     const [localMessages, setLocalMessages] = useState([]); //Local messages state array is to read off when passing to database
-    const [lastFetchedMessage] = useRef(null);
+    const lastFetchedMessage = useRef(null);
     //Logic is as follows: Instead of rerendering EVERY MESSAGE, we will useeffect to fetch only ones stored in database,
     //and whatever ones the user will create on the site will initially be saved to localmessages state, which is the only thing being rerendered.
     //LocalMessages will then be saved to the db when user navs off, and will only fetch on init like the other ones
@@ -33,36 +33,34 @@ export default function MessagePage(){
             
         }
         fetchInit();
-        return() =>{
-            const saveMessages = async() =>{ //ONLY RUN ON UNMOUNT, ADDING LOCALMESSAGES TO DB
-                if (!recipientUser || !localMessages.length) return;
-                for(let msg of localMessages){
-                    const createMessage = await fetch('http://localhost:8080/api/createmessage/', {
-                        method: 'POST',
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({ recipientUser: recipientUser, conversationId: conversationId, messageContent: msg.content})
-                    })
-                }
-                
-            }
-            saveMessages();
-        }
-    }, [conversationId, recipientUser])
+    }, [conversationId, recipientUser]);
+
+    const saveMessage = async(message) =>{ 
+        if (!recipientUser || !localMessages.length) return;
+            const createMessage = await fetch('http://localhost:8080/api/createmessage/', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ recipientUser: recipientUser, conversationId: conversationId, messageContent: message.content})
+            })
+    }
     const createLocalMessage = (formEntered) =>{
         try{
             formEntered.preventDefault();
             const form = formEntered.target;
             const content = form.elements.message.value;
             const timeCreated = new Date().toISOString();
+            if(!currentUser){ return; }
             const createdMessage = {
                 content: content,
                 createdAt: timeCreated,
+                author: currentUser.name
             }
             form.reset();
             setLocalMessages(prev => [...prev, createdMessage]);
-            lastFetchedMessage.current = createdMessage;
+            saveMessage(createdMessage);
+
         }catch(err){
             console.log("Error in adding data to LocalMessages: "+err)
         }
@@ -90,15 +88,16 @@ export default function MessagePage(){
             <div className="fetchedMessages">
                 {fetchedMessages.map((value, index) =>(
                     <MessageBubble key={value.id} content={value.content} createdAt={value.createdAt} author={currentUser.name} messageAuthor={value.author}/>
-                )
-                )}
+                ))}
+                {localMessages.map((value, index) => (
+                    <MessageBubble key={`localMessage${index}`} content={value.content} createdAt={value.createdAt} author={currentUser.name} messageAuthor={value.author}/>
+                ))}
             </div>
 
-            <div className="messageInputWrapper" onSubmit={createLocalMessage}> 
-                <form id="messageInputter">
+            <div className="messageInputWrapper"> 
+                <form id="messageInputter" onSubmit={createLocalMessage}>
                     <input id="messageInput"></input>
                 </form>
-
             </div>
         </div>
     )
