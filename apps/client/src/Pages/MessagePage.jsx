@@ -30,7 +30,6 @@ export default function MessagePage(){
 
             setFetchedMessages(data.messages); //Set messages to what was fetched from conversation messages
 
-            
         }
         fetchInit();
     }, [conversationId, recipientUser]);

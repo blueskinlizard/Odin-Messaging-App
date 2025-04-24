@@ -5,7 +5,7 @@ const passport = require('../auth/passportLogin')
 /** @typedef {import('express').Response} Response */
 /** @typedef {import('express').NextFunction} NextFunction */
 
-
+//Password fetches both of the req.body's in authentication middleware, no need to specify here
 router.post("/login", async(req: any, res: any, next: any)=>{
     try{
         passport.authenticate('local-signin', async (err: any, user: any, info: any) =>{
@@ -34,6 +34,6 @@ router.post("/signup", async(req: any, res: any, next: any)=>{
             })
         })(req, res, next)
     }catch(err){
-
+        return res.status(500).json({message: "Error in signup route, error: " + err});
     }
 })

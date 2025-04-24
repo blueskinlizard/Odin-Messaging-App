@@ -28,7 +28,7 @@ export default function SearchPage(){
     return(
         <div className="SearchPage">
             <form id="searchForm" onSubmit={() =>{handleForm}}>
-                <input id="userSearchInput"></input>
+                <input id="userSearchInput" name="userSearchInput"></input>
             </form>
             {
                 searchResults.name === "User not found" ? (
