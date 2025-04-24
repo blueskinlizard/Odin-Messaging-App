@@ -14,8 +14,10 @@ const routes = [
         path: '/home',
         element: <HomePage />
     },
+    //Naming is weird, but messagepage is really
+    //Conversation page
     {
-        path: '/messages',
+        path: '/messages/:conversationId',
         element: <MessagePage />
     },
     {

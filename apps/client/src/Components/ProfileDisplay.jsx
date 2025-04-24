@@ -33,4 +33,9 @@ export default function ProfileDisplay(props){
         }
         fetchConversationProps();
     }, [userProfile])
+    return(
+        <div className="Mini profile display">
+
+        </div>
+    )
 }

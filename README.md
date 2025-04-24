@@ -5,12 +5,13 @@ Built using **Node.js**, **Express**, **Prisma**, and **PostgreSQL**, with a Rea
 
 ## 📦 Features
 
-- 🔐 User authentication (WIP or integrated with sessions)
+- 🔐 User authentication via node Passport
 - 💬 Real-time-like messaging with conversation tracking
 - 👥 User search and profile preview
-- 📁 Conversations organized by user pairs or IDs
+- 📁 Conversations organized by created conversation IDs
 - 🧠 Backend built with Express and Prisma ORM
 - 🗄️ PostgreSQL as the relational database
+- 🔑 BcryptJS encryption for users in Postgres
 
 ## ⚙️ Tech Stack
 
@@ -22,5 +23,6 @@ Built using **Node.js**, **Express**, **Prisma**, and **PostgreSQL**, with a Rea
 
 ### Frontend
 - **React** (with hooks and functional components)
-- **Normal CSS** (for styling)
+- **React MUI** (for component styling)
+- **Normal CSS** (for additional styling)
 
