@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.router();
+const router = express.Router();
 const db = require('../../db/queries')
 
 router.post("/findUser", async(req: any, res: any) =>{
@@ -30,3 +30,5 @@ router.get("/currentUser", async(req: any, res: any) =>{
     }
     return res.status(200).json(user);
 })
+
+module.exports = router;

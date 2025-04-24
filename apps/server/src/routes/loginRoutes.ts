@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const passport = require('../auth/passportLogin')
+const passport = require('../auth/passportLogin.ts')
 /** @typedef {import('express').Request} Request */
 /** @typedef {import('express').Response} Response */
 /** @typedef {import('express').NextFunction} NextFunction */
@@ -37,3 +37,5 @@ router.post("/signup", async(req: any, res: any, next: any)=>{
         return res.status(500).json({message: "Error in signup route, error: " + err});
     }
 })
+
+module.exports = router;

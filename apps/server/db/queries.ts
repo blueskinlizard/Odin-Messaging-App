@@ -1,6 +1,7 @@
 import { connect } from "http2";
 
-const { PrismaClient } = require('./generated/prisma');
+import { PrismaClient } from './generated/prisma';
+
 const prisma = new PrismaClient();
 
 export const createUser = async (name: string, hashedPassword: string) => {
@@ -15,7 +16,7 @@ export const findUserById = async (id: string) => { //Finds users by id
     return prisma.userValues.findUnique({ where: { id: id } });
 }
 export const findUserByName = async(username: string) =>{
-    return prisma.userValues.findUnique({ where: { name: username.toLowerCase() } });
+    return prisma.userValues.findFirst({ where: { name: username.toLowerCase() } });
 }
 export const findLatestMessage = async (senderId: string, receiverId: string) => {
     return await prisma.message.findFirst({
@@ -23,23 +24,24 @@ export const findLatestMessage = async (senderId: string, receiverId: string) =>
             authorId: senderId,
             recipientId: receiverId,
         },
-        order: {
+        orderBy: { 
             createdAt: 'desc', //Orders messages by date in descending order, finding latest
         }
     })
 }
 export const findAllMessages = async (senderId: string, receiverId: string) => {
     //Fetches by name, too lazy to change ID variable
-    return await prisma.conversation.findUnique({
+    return await prisma.conversation.findFirst({ 
         where: {
             AND: [
                 { participants: { some: { name: senderId.toLowerCase() } } },
                 { participants: { some: { name: receiverId.toLowerCase() } } }
             ]
         },
-        include: {
+        select: {
+            id: true,
             messages: true,
-            id: true
+            participants: true
         }
     });
 };
@@ -64,29 +66,19 @@ export const createConversation = async(requester: string, participant: string) 
         }
     })
 }
-export const createMessage = async(authorUser: any, recipientUser: any, conversationId: string, messageContent: string) =>{
+export const createMessage = async(authorUser: any, recipientUser: any, conversationId: string, messageContent: string) => { //Finds now by ID
     await prisma.message.create({
-        data:{ //Author and recipient need to be objects, not strings! Almost made this error
+        data: { //Author and recipient need to be objects, not strings! Almost made this error
             content: messageContent,
             author: {
-                connect: { name: authorUser.toLowerCase()}
+                connect: { id: authorUser }  
             },
             recipient: {
-                connect: { name: recipientUser.toLowerCase()}
+                connect: { id: recipientUser } 
             },
-            conversation: {
-                connect: { id: conversationId}
+            Conversation: { 
+                connect: { id: conversationId }
             }
         }
     })
-}
-module.exports ={
-    createUser,
-    findUserById,
-    findUserByName,
-    createMessage,
-    findLatestMessage,
-    findAllMessages,
-    findConversation,
-    createConversation,
 }

@@ -40,3 +40,5 @@ router.get('/latestMessage/:conversationId', async(req: any, res: any) =>{
         res.status(500).json({ error: 'Internal Server Error, Latest message fetch' });
     }
 })
+
+module.exports = router;
