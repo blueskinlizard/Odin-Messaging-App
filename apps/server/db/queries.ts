@@ -52,21 +52,27 @@ export const findConversation = async(conversationId: string) =>{
         }
     });
 }
-export const createConversation = async(requester: string, participant: string) =>{
+export const createConversation = async(requesterName: string, participantName: string) => {
+    const requesterUser = await findUserByName(requesterName);
+    const participantUser = await findUserByName(participantName);
+    
+    if (!requesterUser || !participantUser) {
+        throw new Error("One or both users not found");
+    }
+    
     return await prisma.conversation.create({
-        data:{
+        data: {
             participants: {
                 connect: [
-                    {id: requester.toLowerCase()}, 
-                    {id: participant.toLowerCase()}
+                    {id: requesterUser.id},
+                    {id: participantUser.id}
                 ]
             }
         },
         select: {
             id: true
         }
-    })
-    
+    });
 }
 export const createMessage = async(authorUser: any, recipientUser: any, conversationId: string, messageContent: string) => { //Finds now by ID
     await prisma.message.create({

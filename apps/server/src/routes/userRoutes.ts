@@ -18,7 +18,8 @@ router.post("/createConversation", async(req: any, res: any) =>{
     const requester = req.session.username;
     const { participant } = req.body;
     try{
-        await db.createConversation(requester, participant);
+        const newConversation = await db.createConversation(requester, participant);
+        return res.status(200).json(newConversation);
     }catch{
         return res.status(500).json({ message: "Failed to create conversation" });
     }

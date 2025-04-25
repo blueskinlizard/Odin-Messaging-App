@@ -11,8 +11,10 @@ router.post('/conversations/', async(req: any, res: any) =>{
         if(!conversation){
             return res.status(404).json({ error: 'Conversation not found' });
         }
-        const messages = conversation.messages;
-        res.status(200).json(messages);
+        return res.status(200).json({
+            id: conversation.id,
+            messages: conversation.messages
+        });
     }catch(err){
         res.status(500).json({ error: 'Internal Server Error, Conversation via name fetch' });
     }

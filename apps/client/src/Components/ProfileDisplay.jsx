@@ -34,7 +34,7 @@ export default function ProfileDisplay(props){
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ receiver: receiver.toLowerCase()})
+            body: JSON.stringify({ receiver: receiver.name.toLowerCase()})
             //Weird naming, but it is referenced as receiver in backend, userprofile refers to parts of our current component
         })
     }
@@ -58,7 +58,7 @@ export default function ProfileDisplay(props){
     return(
         
         <div className="Mini profile display">
-            <h1>{userName}</h1>
+            <h1>{userName.name}</h1>
             <div className="conversationButton">
             {
                 hasConversation === false ? (
