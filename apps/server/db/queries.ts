@@ -4,7 +4,7 @@ import { PrismaClient } from './generated/prisma/index.js';
 const prisma = new PrismaClient();
 
 export const createUser = async (name: string, hashedPassword: string) => {
-    await prisma.userValues.create({
+    return await prisma.userValues.create({
         data: {
             name: name.toLowerCase(),
             password: hashedPassword
@@ -17,7 +17,7 @@ export const findUserById = async (id: string) => { //Finds users by id
 export const findUserByName = async(username: string) =>{
     return prisma.userValues.findFirst({ where: { name: username.toLowerCase() } });
 }
-export const findLatestMessage = async (conversationId: string) => {
+export const findLatestMessage = async (conversationId: string) => {    
     return await prisma.message.findFirst({
         where: {
             conversationId: conversationId

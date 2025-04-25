@@ -9,13 +9,22 @@ const passport = require('../auth/passportLogin.ts')
 router.post("/login", async(req: any, res: any, next: any)=>{
     try{
         passport.authenticate('local-signin', async (err: any, user: any, info: any) =>{
-            if (err) { return next(err)};
+            if (err) { 
+                console.error("Authentication error:", err);
+                return res.status(500).json({message: `Authentication error: ${err.message}`});
+            };
             //Info.message is provided by passport
-            if(!user){ return res.status(res.status(400).json({message: info.message || "Login failed, absence of user from passport middleware"}))};
+            console.log("Passport authenticate result:", { 
+                err: err ? err.message : null, 
+                userExists: !!user, 
+                info: info ? info.message : null 
+            });
+            if(!user){ 
+                return res.status(400).json({message: info?.message || "Login failed, absence of user from passport middleware"});
+            }
             req.logIn(user, (err: any) =>{
                 if (err) { return next(err); }
-                return res.status(200).json({message: "User logged in successfully", user: user
-            })
+                return res.status(200).json({message: "User logged in successfully", user: user})
         })
     })(req, res, next);
   }catch(err){
@@ -25,9 +34,17 @@ router.post("/login", async(req: any, res: any, next: any)=>{
     
 router.post("/signup", async(req: any, res: any, next: any)=>{
     try{
+    
         passport.authenticate('local-signup', async (err: any, user: any, info: any) =>{
             if (err) { return next(err); }
-            if(!user){ return res.status(res.status(400).json({message: info.message || "Login failed, absence of user from passport middleware"}))};
+            console.log("Passport authenticate result:", { 
+                err: err ? err.message : null, 
+                userExists: !!user, 
+                info: info ? info.message : null 
+            });
+            if(!user){ 
+                return res.status(400).json({message: info?.message || "Login failed, absence of user from passport middleware"});
+            }
             req.logIn(user, (err: any) => { //Repeat functionality
                 if(err) {return next(err)}
                 return res.status(200).json({message: "User signed up successfully", user: user});

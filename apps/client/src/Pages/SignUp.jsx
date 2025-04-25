@@ -15,6 +15,7 @@ export default function SignUp(){
     const UserLogic = async(username, password) =>{
         try{
             const fetchType = formType ? "signup" : "login"; //Does this based off conditional, pretty straightforward
+            console.log("Sending request:", { username, password, fetchType });
             const fetchedDataJson = await fetch(`http://localhost:8080/api/${fetchType}`, {
                 method: 'POST',
                 headers: {
@@ -23,6 +24,8 @@ export default function SignUp(){
                 body: JSON.stringify({ username: username, password: password}),
                 credentials: "include"
             })
+            const responseData = await fetchedDataJson.json().catch(e => ({ message: "Could not parse JSON response" }));
+            console.log("Response status:", fetchedDataJson.status, "Response data:", responseData);
             if(fetchedDataJson.ok){
                 setSignUpStatus("Succesfully logged in, redirecting now")
                 navigate("/home");

@@ -4,9 +4,13 @@ const db = require('../../db/queries.ts');
 const bcrypt = require('bcryptjs');
 
 passport.use('local-signin', new LocalStrategy(
+    {
+        usernameField: 'username',
+        passwordField: 'password'
+    },
     async (username: string, password: string, done: any) => {
         try {
-            const user = await db.getUserByUsername(username);
+            const user = await db.findUserByName(username);
             if(!user){
                 return done(null, false, { message: 'Incorrect or missing username' });
             }
@@ -21,9 +25,13 @@ passport.use('local-signin', new LocalStrategy(
     }
 ))
 passport.use('local-signup', new LocalStrategy(
+    {
+        usernameField: 'username',
+        passwordField: 'password'
+    },
     async (username: string, password: string, done: any) => {
         try{
-            const presentUser = await db.getUserByUsername(username);
+            const presentUser = await db.findUserByName(username);
             if(presentUser){
                 return done(null, false, { message: 'User already exists' });
             }
