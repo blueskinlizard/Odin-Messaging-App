@@ -53,7 +53,7 @@ export const findConversation = async(conversationId: string) =>{
     });
 }
 export const createConversation = async(requester: string, participant: string) =>{
-    await prisma.conversation.create({
+    return await prisma.conversation.create({
         data:{
             participants: {
                 connect: [
@@ -61,8 +61,12 @@ export const createConversation = async(requester: string, participant: string) 
                     {id: participant.toLowerCase()}
                 ]
             }
+        },
+        select: {
+            id: true
         }
     })
+    
 }
 export const createMessage = async(authorUser: any, recipientUser: any, conversationId: string, messageContent: string) => { //Finds now by ID
     await prisma.message.create({

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect, useRef } from "react";
 import { useQuery} from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import MessageBubble from "../Components/MessageBubble";
 
 
@@ -10,6 +10,7 @@ export default function MessagePage(){
     const [recipientUser, setRecipientUser] = useState();
     const [localMessages, setLocalMessages] = useState([]); //Local messages state array is to read off when passing to database
     const lastFetchedMessage = useRef(null);
+    const navigate = useNavigate();
     //Logic is as follows: Instead of rerendering EVERY MESSAGE, we will useeffect to fetch only ones stored in database,
     //and whatever ones the user will create on the site will initially be saved to localmessages state, which is the only thing being rerendered.
     //LocalMessages will then be saved to the db when user navs off, and will only fetch on init like the other ones
@@ -22,8 +23,13 @@ export default function MessagePage(){
 
             const currentUserJson = await fetch('http://localhost:8080/api/currentUser'); //I just dont like context idk why
             const currentUserData = await currentUserJson.json();
-            setCurrentUser(currentUserData);
 
+
+            setCurrentUser(currentUserData);
+            const checkForUserInConversation = data.participants.find(user => user.name === currentUserData.name)
+            if(!checkForUserInConversation){
+                navigate("/home"); //Redirect users that arent part of conversation
+            }
             const recipient = data.participants.find(user => user.name !== currentUserData.name);
             //I don't want to run into async errors with state, so I'll just set recipient to returned JSON data
             setRecipientUser(recipient);
@@ -32,10 +38,10 @@ export default function MessagePage(){
 
         }
         fetchInit();
-    }, [conversationId, recipientUser]);
+    }, [conversationId, navigate]);
 
     const saveMessage = async(message) =>{ 
-        if (!recipientUser || !localMessages.length) return;
+        if (!recipientUser || !message || !message.content) return;
             const createMessage = await fetch('http://localhost:8080/api/createmessage/', {
                 method: 'POST',
                 headers: {
@@ -50,7 +56,7 @@ export default function MessagePage(){
             const form = formEntered.target;
             const content = form.elements.message.value;
             const timeCreated = new Date().toISOString();
-            if(!currentUser){ return; }
+            if(!currentUser || !content.trim()){return;}
             const createdMessage = {
                 content: content,
                 createdAt: timeCreated,
@@ -68,6 +74,7 @@ export default function MessagePage(){
         queryKey: ["messages", conversationId], 
         staleTime: 1000 * 20,
         queryFn: async () =>{
+            if (!currentUser || !conversationId) return null;
             const fetchLatest = await fetch(`http://localhost:8080/api/latestMessage/${conversationId}`);
             const latestData = await fetchLatest.json();
             if(latestData.author != currentUser.name && latestData.content != lastFetchedMessage.content){
@@ -83,7 +90,7 @@ export default function MessagePage(){
     //Too lazy to implement context, so I just made the messageInputter a part of the page, not a component
     return(
         <div className="MessagePage">
-            <h1>Messages with: {recipientUser}</h1>
+            <h1>Messages with: {recipientUser?.name}</h1>
             <div className="fetchedMessages">
                 {fetchedMessages.map((value, index) =>(
                     <MessageBubble key={value.id} content={value.content} createdAt={value.createdAt} author={currentUser.name} messageAuthor={value.author}/>
@@ -95,7 +102,7 @@ export default function MessagePage(){
 
             <div className="messageInputWrapper"> 
                 <form id="messageInputter" onSubmit={createLocalMessage}>
-                    <input id="messageInput"></input>
+                    <input id="messageInput" name="message"></input>
                 </form>
             </div>
         </div>

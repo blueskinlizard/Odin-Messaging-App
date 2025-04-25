@@ -1,13 +1,19 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import ProfileDisplay from "../Components/ProfileDisplay"
 export default function SearchPage(){
-    const [searchTerm, setSearchTerm] = useState();
+    const [searchTerm, setSearchTerm] = useState(null);
     const [searchResults, setSearchResults] = useState(null);
+
+    useEffect(()=>{
+        if(searchTerm){
+            handleSearch
+        }
+    }, [searchTerm])
     const handleForm = (e) => {
         e.preventDefault();
         setSearchTerm(e.target.userSearchInput.value);
-
     }
+
     const handleSearch = async() =>{
         try{
             const fetchedSearchDataJson = await fetch('http://localhost:8080/api/findUser', {
@@ -27,11 +33,11 @@ export default function SearchPage(){
     handleSearch();
     return(
         <div className="SearchPage">
-            <form id="searchForm" onSubmit={() =>{handleForm}}>
-                <input id="userSearchInput" name="userSearchInput"></input>
+            <form id="searchForm" onSubmit={handleForm}>
+                <input id="userSearchInput" name="userSearchInput" type="text"></input>
             </form>
             {
-                searchResults.name === "User not found" ? (
+                searchResults?.name === "User not found" ? (
                     <h1>User not found</h1>
                 ) : (
                     <div className="userReturnedData">
