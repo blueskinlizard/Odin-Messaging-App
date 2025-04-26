@@ -11,8 +11,19 @@ export default function ProfileDisplay(props){
     useEffect(() =>{ 
         const fetchConversationProps = async() =>{
             try{
-                const fetchedConversation = await fetchConversationByName(userName);
+                const fetchedConversation = await fetchConversationByName(userName.name);
                 if(fetchedConversation.status === 404){
+                    setHasConversation(false);
+                    return;
+                }
+                if (fetchedConversation.status === 404) {
+                    setHasConversation(false);
+                    return;
+                } else if (fetchedConversation.status !== 200) {
+                    // Handle other error status codes
+                    console.error("Error status:", fetchedConversation.status);
+                    const errorData = await fetchedConversation.text();
+                    console.error("Error response:", errorData);
                     setHasConversation(false);
                     return;
                 }
@@ -29,14 +40,19 @@ export default function ProfileDisplay(props){
         fetchConversationProps();
     }, [userName])
     const fetchConversationByName = async(receiver) =>{
-        return await fetch('http://localhost:8080/api/conversations/', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ receiver: receiver.name.toLowerCase()})
-            //Weird naming, but it is referenced as receiver in backend, userprofile refers to parts of our current component
-        })
+        try{
+            return await fetch('http://localhost:8080/api/conversations/', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: JSON.stringify({ receiver })
+                //Weird naming, but it is referenced as receiver in backend, userprofile refers to parts of our current component
+            })
+        }catch(err){
+            console.log("Error in fetching conversation: "+err)
+        }
     }
 
     const createConversationId = async() =>{
@@ -46,11 +62,12 @@ export default function ProfileDisplay(props){
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ participant: userName.toLowerCase()})
+                body: JSON.stringify({ participant: userName.toLowerCase()}),
+                credentials: 'include',
             })
             const data = await response.json();
             setConversationId(data.id);
-            navigate(`/messages/${conversationId}`)
+            navigate(`/messages/${data.id}`)
         }catch(err){
             console.log("Conversation not created/found, error: "+err);
         }

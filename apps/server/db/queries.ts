@@ -29,6 +29,10 @@ export const findLatestMessage = async (conversationId: string) => {
 }
 export const findAllMessages = async (senderId: string, receiverId: string) => {
     //Fetches by name, too lazy to change ID variable
+    if (!senderId || !receiverId) {
+        console.error("Invalid parameters:", { senderId, receiverId });
+        return null;
+    }
     return await prisma.conversation.findFirst({ 
         where: {
             AND: [

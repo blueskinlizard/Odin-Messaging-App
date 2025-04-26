@@ -15,7 +15,7 @@ router.post("/findUser", async(req: any, res: any) =>{
     }
 })
 router.post("/createConversation", async(req: any, res: any) =>{
-    const requester = req.session.username;
+    const requester = req.user.name;
     const { participant } = req.body;
     try{
         const newConversation = await db.createConversation(requester, participant);
@@ -25,7 +25,7 @@ router.post("/createConversation", async(req: any, res: any) =>{
     }
 })
 router.get("/currentUser", async(req: any, res: any) =>{
-    const user = await db.findUserByName(req.session.username);
+    const user = await db.findUserByName(req.user.name);
     if (!user) {
         return res.status(404).json({ message: "User not found" });
     }

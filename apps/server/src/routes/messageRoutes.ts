@@ -4,8 +4,15 @@ const  db  = require("../../db/queries.ts")
 //Finds convo off sender and receiver, more of an optional thing if Im too lazy to implement conversation ID
 router.post('/conversations/', async(req: any, res: any) =>{ 
     const { receiver } = req.body;
-    try{
-        const sender = req.session.username;
+        const sender = req.user.name;
+        if (!receiver) {
+            return res.status(400).json({ error: 'Receiver is required' });
+        }
+        
+        // Check if session exists and has username
+        if (!req.user) {
+            return res.status(401).json({ error: 'User not authenticated' });
+        }   
         const conversation = await db.findAllMessages(sender, receiver);
         //Converts to lowercase to avoid char mismatch
         if(!conversation){
@@ -15,13 +22,10 @@ router.post('/conversations/', async(req: any, res: any) =>{
             id: conversation.id,
             messages: conversation.messages
         });
-    }catch(err){
-        res.status(500).json({ error: 'Internal Server Error, Conversation via name fetch' });
-    }
 })
 router.post('/createmessage/', async(req: any, res: any) =>{
     const {recipientUser, conversationId, messageContent} = req.params;
-    const currentUser = req.session.username;
+    const currentUser = req.user.name;
     await db.createMessage(currentUser, recipientUser, conversationId, messageContent)
 })
 router.get('/conversations/:conversationId',  async(req: any, res: any) =>{
