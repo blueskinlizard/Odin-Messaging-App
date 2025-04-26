@@ -81,7 +81,7 @@ export default function ProfileDisplay(props){
                 hasConversation === false ? (
                     <button onClick={createConversationId}>Start Conversation</button>
                 ) : (
-                    <Link to={`/messages/${conversationId}`}>Continue chatting</Link>
+                    <Link to={`/messages/${conversationId}`}><button>Continue chatting</button></Link>
                 )
             }
             </div>

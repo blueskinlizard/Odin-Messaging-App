@@ -25,10 +25,10 @@ router.post("/createConversation", async(req: any, res: any) =>{
     }
 })
 router.get("/currentUser", async(req: any, res: any) =>{
-    const user = await db.findUserByName(req.user.name);
-    if (!user) {
+    if (!req.user) {
         return res.status(404).json({ message: "User not found" });
     }
+    const user = await db.findUserByName(req.user.name);
     return res.status(200).json(user);
 })
 

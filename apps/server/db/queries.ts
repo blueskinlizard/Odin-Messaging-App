@@ -79,6 +79,11 @@ export const createConversation = async(requesterName: string, participantName: 
     });
 }
 export const createMessage = async(authorUser: any, recipientUser: any, conversationId: string, messageContent: string) => { //Finds now by ID
+    //Authoruser and recipient user are both passed in as id values, NOT OBJECTS, by messageroutes
+    if (!authorUser || !recipientUser || !conversationId || !messageContent) {
+        console.error('Missing data in createMessage', { authorUser, recipientUser, conversationId, messageContent });
+        throw new Error('Invalid message creation parameters.');
+    } //Guard clause
     await prisma.message.create({
         data: { //Author and recipient need to be objects, not strings! Almost made this error
             content: messageContent,

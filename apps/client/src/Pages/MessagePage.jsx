@@ -17,11 +17,12 @@ export default function MessagePage(){
     const [currentUser, setCurrentUser] = useState();
     const { conversationId } = useParams(); //We will be redirected to our conversation after interaction with ProfileDisplayComponent
     useEffect(() =>{ //We fetch all initial messages here, and we update messages throughout with usequery
+        console.log("Conversation Id: "+conversationId);
         const fetchInit = async() =>{
             const fetchData = await fetch(`http://localhost:8080/api/conversations/${conversationId}`); 
             const data = await fetchData.json();
 
-            const currentUserJson = await fetch('http://localhost:8080/api/currentUser'); //I just dont like context idk why
+            const currentUserJson = await fetch('http://localhost:8080/api/currentUser',{ credentials: "include"}); //I just dont like context idk why
             const currentUserData = await currentUserJson.json();
 
 
@@ -33,7 +34,8 @@ export default function MessagePage(){
             const recipient = data.participants.find(user => user.name !== currentUserData.name);
             //I don't want to run into async errors with state, so I'll just set recipient to returned JSON data
             setRecipientUser(recipient);
-
+            console.log("Recipient name registered as: "+recipient.name)
+            
             setFetchedMessages(data.messages); //Set messages to what was fetched from conversation messages
 
         }
@@ -42,11 +44,28 @@ export default function MessagePage(){
 
     const saveMessage = async(message) =>{ 
         if (!recipientUser || !message || !message.content) return;
+        console.log("Sent message content includes: "+message.content)
+        console.log("RecipientUser state sent to stored as: "+recipientUser.name);
+
+        if (!recipientUser || !message || !message.content || !conversationId) {
+            console.log("saveMessage was called but missing required data:");
+            console.log("recipientUser:", recipientUser);
+            console.log("message:", message);
+            console.log("conversationId:", conversationId);
+            return;
+        }
+    
+        console.log("Sending message to backend:", {
+            recipientUser: recipientUser.id,
+            conversationId,
+            messageContent: message.content
+        });
             const createMessage = await fetch('http://localhost:8080/api/createmessage/', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
                 },
+                credentials: "include",
                 body: JSON.stringify({ recipientUser: recipientUser, conversationId: conversationId, messageContent: message.content})
             })
     }
@@ -84,13 +103,14 @@ export default function MessagePage(){
             }
             return latestData;
         },
+        enabled: !!currentUser && !!conversationId, //Makes sure prereqs are fulfilled before querying
         refetchInterval: 1000 * 5,
         refetchIntervalInBackground: false
     })
     //Too lazy to implement context, so I just made the messageInputter a part of the page, not a component
     return(
         <div className="MessagePage">
-            <h1>Messages with: {recipientUser?.name}</h1>
+            <h1>Messages with: {recipientUser ? recipientUser.name : "Loading..."}</h1>
             <div className="fetchedMessages">
                 {fetchedMessages.map((value, index) =>(
                     <MessageBubble key={value.id} content={value.content} createdAt={value.createdAt} author={currentUser.name} messageAuthor={value.author}/>
