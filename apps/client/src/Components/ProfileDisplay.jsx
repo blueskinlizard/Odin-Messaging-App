@@ -62,7 +62,7 @@ export default function ProfileDisplay(props){
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ participant: userName.toLowerCase()}),
+                body: JSON.stringify({ participant: userName.name.toLowerCase()}),
                 credentials: 'include',
             })
             const data = await response.json();

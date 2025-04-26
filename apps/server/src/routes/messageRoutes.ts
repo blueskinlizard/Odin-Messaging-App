@@ -4,24 +4,29 @@ const  db  = require("../../db/queries.ts")
 //Finds convo off sender and receiver, more of an optional thing if Im too lazy to implement conversation ID
 router.post('/conversations/', async(req: any, res: any) =>{ 
     const { receiver } = req.body;
-        const sender = req.user.name;
+        
         if (!receiver) {
             return res.status(400).json({ error: 'Receiver is required' });
         }
-        
-        // Check if session exists and has username
-        if (!req.user) {
-            return res.status(401).json({ error: 'User not authenticated' });
-        }   
-        const conversation = await db.findAllMessages(sender, receiver);
-        //Converts to lowercase to avoid char mismatch
-        if(!conversation){
-            return res.status(404).json({ error: 'Conversation not found' });
+        try{
+            if (!req.user) {
+                return res.status(401).json({ error: 'User not authenticated' });
+            } 
+            const sender = req.user.name;
+            const conversation = await db.findAllMessages(sender, receiver);
+            //Converts to lowercase to avoid char mismatch
+            if(!conversation){
+                return res.status(404).json({ error: 'Conversation not found' });
+            }
+            return res.status(200).json({
+                id: conversation.id,
+                messages: conversation.messages
+            });
+        }catch(err){
+            return res.status(500).json({error: 'Caught internal server error: '+err})
         }
-        return res.status(200).json({
-            id: conversation.id,
-            messages: conversation.messages
-        });
+        // Check if session exists and has username
+        
 })
 router.post('/createmessage/', async(req: any, res: any) =>{
     const {recipientUser, conversationId, messageContent} = req.params;
