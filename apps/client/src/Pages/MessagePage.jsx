@@ -96,9 +96,17 @@ export default function MessagePage(){
             if (!currentUser || !conversationId) return null;
             const fetchLatest = await fetch(`http://localhost:8080/api/latestMessage/${conversationId}`);
             const latestData = await fetchLatest.json();
-            if(latestData.author != currentUser.name && latestData.content != lastFetchedMessage.content){
+            console.log("Latest data content: "+latestData.content)
+            //If latestdata.author is stored by id thats lowk the funniest thing ever
+            console.log("Latest data author: "+latestData.author.name+ " current User name: "+currentUser.name)
+            if(latestData.author.name != currentUser.name && latestData.content != lastFetchedMessage.current.content){
                 //This signifies that this is an unregistered, newly sent message from other side of conversation
+                console.log("Query ran!");
                 setLocalMessages(prev => [...prev, latestData]); 
+                localMessages.map((value, index) =>{
+                    console.log("Content:" +value.content+ "at index: "+index);
+                    return;
+                })
                 lastFetchedMessage.current = latestData;
             }
             return latestData;

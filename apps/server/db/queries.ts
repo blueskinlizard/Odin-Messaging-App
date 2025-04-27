@@ -24,6 +24,9 @@ export const findLatestMessage = async (conversationId: string) => {
         },
         orderBy: { 
             createdAt: 'desc', //Orders messages by date in descending order, finding latest
+        },
+        include: {
+            author: true  
         }
     })
 }
