@@ -37,7 +37,9 @@ export default function MessagePage(){
             console.log("Recipient name registered as: "+recipient.name)
             
             setFetchedMessages(data.messages); //Set messages to what was fetched from conversation messages
-
+            const fetchLatest = await fetch(`http://localhost:8080/api/latestMessage/${conversationId}`);
+            const latestData = await fetchLatest.json();
+            lastFetchedMessage.current = latestData.content;
         }
         fetchInit();
     }, [conversationId, navigate]);
@@ -99,15 +101,14 @@ export default function MessagePage(){
             console.log("Latest data content: "+latestData.content)
             //If latestdata.author is stored by id thats lowk the funniest thing ever
             console.log("Latest data author: "+latestData.author.name+ " current User name: "+currentUser.name)
-            if(latestData.author.name != currentUser.name && latestData.content != lastFetchedMessage.current.content){
+            console.log("lastFetchedMessageRef: "+lastFetchedMessage.current || "undefined")
+            if(latestData.author.name != currentUser.name && latestData.content != lastFetchedMessage.current){
                 //This signifies that this is an unregistered, newly sent message from other side of conversation
                 console.log("Query ran!");
                 setLocalMessages(prev => [...prev, latestData]); 
-                localMessages.map((value, index) =>{
-                    console.log("Content:" +value.content+ "at index: "+index);
-                    return;
-                })
-                lastFetchedMessage.current = latestData;
+                
+                console.log("Setting last fetched message to: "+latestData.content)
+                lastFetchedMessage.current = latestData.content;
             }
             return latestData;
         },
