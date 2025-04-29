@@ -1,7 +1,8 @@
 # 🗨️ Odin Messaging App
 
-A full-stack messaging web app that enables users to communicate in (almost, I fetch messages every 10 seconds) real-time through conversations. 
-Built using **Node.js**, **Express**, **Prisma**, and **PostgreSQL**, with a React frontend.
+A full-stack messaging web app that enables users to communicate in real-time through conversations. 
+The reason for the size of this project, is that WEBSOCKETS ARE NOT USED! 
+Built using **Node.js**, **Express**, **Prisma**, and **PostgreSQL**, with a React frontend, no websockets, and raw querying.
 
 ## 📦 Features
 
