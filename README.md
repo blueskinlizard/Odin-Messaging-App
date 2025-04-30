@@ -24,6 +24,5 @@ Built using **Node.js**, **Express**, **Prisma**, and **PostgreSQL**, with a Rea
 
 ### Frontend
 - **React** (with hooks and functional components)
-- **React MUI** (for component styling)
 - **Normal CSS** (for additional styling)
 
